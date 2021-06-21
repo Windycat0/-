@@ -1,0 +1,18 @@
+//lsc算法
+ for(i=1;i<=lena;++i){  
+        for(j=1;j<=lenb;++j){  
+            if(a[i-1]==b[j-1])  
+                dp[i][j]=dp[i-1][j-1]+1;  
+            else  
+            	dp[i][j]=max(dp[i-1][j],dp[i][j-1]);  
+        }  
+    }
+
+//背包算法
+for(int i=0;i<n;i++){   //滚动数组优化
+	for(int j=m;j>=0;j--){
+		if(j>=w[i]){
+			dp[j]=max(dp[j],(dp[j-w[i]]+v[i]));
+		}
+	} 
+}
