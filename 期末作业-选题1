@@ -1,0 +1,63 @@
+#include<iostream>
+using namespace std;
+struct work{
+	int ti;
+	int num;
+	int flag=0;
+};
+int main() {
+	struct work t[6];
+	int i,j,s1=0,s2=0; 
+	
+	t[0].ti=1;
+	t[1].ti=5;
+	t[2].ti=2;
+	t[3].ti=10;
+	t[4].ti=3;
+	
+	t[0].num=1;
+	t[1].num=2;
+	t[2].num=3;
+	t[3].num=4;
+	t[4].num=5;
+	
+	for(i=0;i<5;i++){
+		for(j=0;j<4;j++){
+			if(t[j].ti<t[j+1].ti){
+				t[5].ti=t[j].ti;
+				t[j].ti=t[j+1].ti;
+				t[j+1].ti=t[5].ti;
+				t[5].num=t[j].num;
+				t[j].num=t[j+1].num;
+				t[j+1].num=t[5].num;
+			}
+		}
+	}
+	
+	s1=t[0].ti; t[0].flag=1;
+	s2=t[1].ti; t[1].flag=2;
+	for(i=2;i<5;i++){
+		if(s1+t[i].ti<=s2){
+			s1=s1+t[i].ti;
+			t[i].flag=1;
+		}
+		else{
+			s2=s2+t[i].ti;
+			t[i].flag=2;
+		}
+	}
+	
+	cout<<"分配给机器1的任务有：";
+	for(i=0;i<5;i++){
+		if(t[i].flag==1) cout<<t[i].num<<" ";
+	}
+	cout<<endl;
+	
+	cout<<"分配给机器2的任务有：";
+	for(i=0;i<5;i++){
+		if(t[i].flag==2) cout<<t[i].num<<" ";
+	}
+	cout<<endl;
+	
+	return 0;
+}
