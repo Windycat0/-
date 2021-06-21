@@ -1,0 +1,43 @@
+void CreateHuffmanTree(HuffmanTree T){
+    //构造哈夫曼树，T[m-1]为其根结点
+    int i,p1,p2;
+    InitHuffmanTree(T);    //将T初始化
+    InputWeight(T);        //输入叶子权值
+    for(i=n;i<m;i++){
+        //在当前森林T[0．．i-1]的所有结点中，选取权最小和次小的
+        //两个根结点T[p1]和T[p2]作为合并对象
+        //共进行n-1次合并，新结点依次存于T[i]中
+ 
+        SelectMin(T,i-1,&p1,&p2);//选择权值最小和次小的根结点，其序号分别为p1和p2
+ 
+        //将根为T[p1]和T[p2]的两棵树作为左右子树合并为一棵新的树
+        //新树的根是新结点T[i]
+        T[p1].parent=T[p2].parent=i;//T[p1]和T[p2]的两棵树的根结点指向i
+        T[i].lchild=p1;             //最小权的根结点是新结点的左孩子
+        T[i].rchild=p2;             //次小权的根结点是新结点的右孩子
+        T[i].weight=T[p1].weight+T[p2].weight;//新结点的权值是左右子树的权值之和
+    }
+}
+
+void CharSetHuffmanEncoding(HuffmanTree T,HuffmanCode H){
+    //根据哈夫曼树T求哈夫曼编码表H
+    int c,p;//c和p分别指示T中孩子和双亲的位置
+    char cd[n+1];//临时存放编码
+    int start;//指示编码在cd中的起始位置
+    cd[n]='\0';//编码结束符
+    getchar();
+    for(int i=0;i<n;i++){//依次求叶子T[i]的编码
+        H[i].ch=getchar();//读入叶子T[i]对应的字符
+        start=n;//编码起始位置的初值
+        c=i;//从叶子T[i]开始上溯
+        while((p=T[c].parent)>=0){//直至上溯到T[c]是树根为止
+            //若T[c]是T[p]的左孩子，则生成代码0；否则生成代码1
+            if(T[p].lchild==c)
+                cd[--start]='0';
+            else
+                cd[--start]='1';
+            c=p;//继续上溯
+        }
+        strcpy(H[i].bits,&cd[start]);//复制编码位串
+    }
+}
