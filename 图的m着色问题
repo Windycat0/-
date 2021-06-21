@@ -1,0 +1,64 @@
+#include
+#include
+#include
+#include
+#include<stdlib.h>
+#include
+
+using namespace std;
+#define ll long long
+int i, j, k, n, m;
+const int inf = 0x3f3f3f;
+const int hl = 100;
+map<ll, ll> mpp[15];
+
+const int mm = 100;
+int mp[mm][mm];
+int ans = 0;
+void ff(int t) {
+if (t > n) {
+ans++;
+return;
+}
+for (int i = 1; i <= m; i++) {
+bool flag = 1;
+for (int j = 1; j <= n; j++) {
+if (mp[t][j] != -1 && i == mp[t][j]) {
+flag = 0;
+break;
+}
+}
+if (flag) {
+for (int j = 1; j <= n; j++) {
+if (mp[t][j] != -1 && j != t) {
+mp[j][t] = i;
+}
+}
+ff(t + 1);
+for (int j = 1; j <= n; j++) {
+if (mp[t][j] != -1 && j != t) {
+mp[j][t] = 0;
+}
+}
+}
+}
+}
+int gcd(int a, int b) {
+return b == 0 ? a : gcd(b, a%b);
+}
+int main() {
+scanf("%d%d%d", &n, &k, &m);
+int x, y;
+memset(mp, -1, sizeof mp);
+for (i = 0; i < k; i++) {
+scanf("%d%d", &x, &y);
+mp[x][y] = 0;
+mp[y][x] = 0;
+}
+ff(1);
+if (ans==0)
+printf(“NO\n”);
+else
+printf("%d\n", ans);
+return 0;
+}
